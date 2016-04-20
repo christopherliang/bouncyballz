@@ -8,7 +8,6 @@ var pic = document.getElementById("vimage"),
     stopbtn = document.getElementById("stop"),
     // Canvas and other variables
     radius = 0,
-    growing = true,
     pColor = "red",
     stop = false,
     intervals = [],
@@ -30,38 +29,6 @@ var drawDot = function() {
     pic.appendChild(c);
     grow();
 };
-
-var grow = function() {
-    var c = document.createElementNS(SVGNS,"circle");
-    animateCode = function() {
-        c = document.getElementsByTagName("circle")[0];
-        radius = parseInt(c.getAttribute("r"));
-        if (!stop) {
-            if (growing == true) {
-                if (radius < 250) {
-                    radius++;
-                } else {
-                    growing = false;
-                    pColor='#'+(Math.random()*0xFFFFFF<<0).toString(16); 
-                }
-            } else {
-                if (radius == 0) {
-                    growing = true;
-                    pColor='#'+(Math.random()*0xFFFFFF<<0).toString(16); 
-                } else {
-                    radius--;
-                }
-            }
-        } else {
-            stop = false;
-        }
-        c.setAttribute("r",radius.toString());
-        c.setAttribute("fill",pColor);
-    }
-    intervalID = window.setInterval(animateCode,16);
-    intervals[iCount] = intervalID;
-    iCount++;
-}
 
 var stopper = function() {
     clearAll();
