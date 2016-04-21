@@ -2,33 +2,48 @@
 var SVGNS = "http://www.w3.org/2000/svg",
     XLINKNS = "http://www.w3.org/1999/xlink";
 
-var pic = document.getElementById("vimage"),
-    circlebtn = document.getElementById("circle"),
-    dvdbtn = document.getElementById("dvd"),
-    stopbtn = document.getElementById("stop"),
-    // Canvas and other variables
-    radius = 0,
-    pColor = "red",
-    stop = false,
-    intervals = [],
-    iCount = 0,
-    intervalID,
-    x = 250,
-    y = 250,
-    cx = 1.8,
-    cy = -1;
+var ballz = []
 
-// Draw function
-var drawDot = function() {
-    var c = document.createElementNS(SVGNS,"circle");
-    c.setAttribute("cx",250);
-    c.setAttribute("cy",250);
-    c.setAttribute("r",0);
-    c.setAttribute("fill","yellow");
+var makeBall = function() {
+    return {
+        //random int between 0 and 500
+        x : Math.floor(Math.random() * (500 - 0 + 1)) + 0,
+        y : Math.floor(Math.random() * (500 - 0 + 1)) + 0,
+        //random int between -3 and 3
+        dx : Math.floor(Math.random() * (3 - (-3) + 1)) -3,
+        dy : Math.floor(Math.random() * (3 - (-3) + 1)) -3,
+        //random color
+        color : '#'+(Math.random()*0xFFFFFF<<0).toString(16) 
+        //collision method?
+    }
+};
+
+var initBall = function() {
+    var b = makeBall();
+    ballz.push(b);
+    drawBall(b);
+    printBallz();
+};
+
+var printBallz = function() {
+    for (var i = 0; i < ballz.length; i++) {
+        console.log(ballz[i]);
+    }
+};
+
+var drawBall = function(b) {
+    var c = document.createElementNS(SVGNS,"ball");
+    c.setAttribute("cx",b.x);
+    c.setAttribute("cy",b.y);
+    c.setAttribute("r",2);
+    c.setAttribute("fill",b.color);
     c.setAttribute("stroke","black");
     pic.appendChild(c);
-    grow();
-};
+}
+
+var pic = document.getElementById("vimage"),
+    ballbtn = document.getElementById("ball"),
+    stopbtn = document.getElementById("stop");
 
 var stopper = function() {
     clearAll();
@@ -76,6 +91,3 @@ var logo_init = function() {
 }
 
 //Event listeners
-circlebtn.addEventListener("click", drawDot);
-stopbtn.addEventListener("click", stopper);
-dvdbtn.addEventListener("click", logo_init);
